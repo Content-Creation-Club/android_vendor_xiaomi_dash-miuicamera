@@ -1,0 +1,6 @@
+/inputs/
+/prebuilts/MiuiCamera.apk
+/prebuilts/lib64/
+/.work/
+__pycache__/
+*.pyc

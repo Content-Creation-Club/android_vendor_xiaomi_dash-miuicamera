@@ -1,0 +1,87 @@
+soong_namespace {}
+
+android_app_import {
+    name: "DashMiuiCamera",
+    apk: "prebuilts/MiuiCamera.apk",
+    certificate: "platform",
+    privileged: true,
+    system_ext_specific: true,
+    optional_uses_libs: ["miui-cameraopt"],
+    dex_preopt: { enabled: false },
+}
+
+prebuilt_etc {
+    name: "dash-miuicamera-init",
+    src: "configs/init.dash-miuicamera.rc",
+    filename_from_src: true,
+    sub_dir: "init",
+    system_ext_specific: true,
+}
+
+cc_defaults {
+    name: "dash_camera_prebuilt_defaults",
+    compile_multilib: "64",
+    system_ext_specific: true,
+    strip: { none: true },
+}
+
+cc_prebuilt_library_shared {
+    name: "libcamera_algoup_jni.xiaomi",
+    defaults: ["dash_camera_prebuilt_defaults"],
+    srcs: ["prebuilts/lib64/libcamera_algoup_jni.xiaomi.so"],
+    shared_libs: [
+        "libbinder", "libcamera_client", "libcamera_metadata", "libcutils",
+        "libgui", "liblog", "libutils", "libvndksupport", "libc++",
+    ],
+}
+
+cc_prebuilt_library_shared {
+    name: "libcamera_mianode_jni.xiaomi",
+    defaults: ["dash_camera_prebuilt_defaults"],
+    srcs: ["prebuilts/lib64/libcamera_mianode_jni.xiaomi.so"],
+    shared_libs: [
+        "libbinder", "libcamera_client", "libcamera_metadata", "libcutils",
+        "libgui", "liblog", "libutils", "libvndksupport", "libxml2", "libc++",
+    ],
+}
+
+cc_prebuilt_library_shared {
+    name: "libcamera_ispinterface_jni.xiaomi",
+    defaults: ["dash_camera_prebuilt_defaults"],
+    srcs: ["prebuilts/lib64/libcamera_ispinterface_jni.xiaomi.so"],
+    shared_libs: [
+        "libandroid_runtime", "libbinder", "libcamera_client", "libcamera_metadata",
+        "libcutils", "libgui", "libhidlbase", "libhidltransport", "liblog",
+        "libmedia", "libnativehelper", "libui", "libutils", "libvndksupport",
+        "dash-camera-isphal-hidl", "dash-camera-isphal-aidl", "libbinder_ndk",
+        "libmtkisp_metadata_sys", "libc++",
+    ],
+}
+
+cc_prebuilt_library_shared {
+    name: "libmtkisp_metadata_sys",
+    defaults: ["dash_camera_prebuilt_defaults"],
+    srcs: ["prebuilts/lib64/libmtkisp_metadata_sys.so"],
+    shared_libs: ["libui", "liblog", "libutils", "libc++"],
+}
+
+cc_prebuilt_library_shared {
+    name: "dash-camera-isphal-hidl",
+    stem: "vendor.mediatek.hardware.camera.isphal@1.0",
+    defaults: ["dash_camera_prebuilt_defaults"],
+    srcs: ["prebuilts/lib64/vendor.mediatek.hardware.camera.isphal@1.0.so"],
+    shared_libs: [
+        "android.hardware.graphics.common@1.0", "android.hardware.graphics.common@1.1",
+        "libhidlbase", "liblog", "libutils", "libcutils", "libc++",
+    ],
+}
+
+cc_prebuilt_library_shared {
+    name: "dash-camera-isphal-aidl",
+    stem: "vendor.mediatek.hardware.camera.isphal-V1-ndk",
+    defaults: ["dash_camera_prebuilt_defaults"],
+    srcs: ["prebuilts/lib64/vendor.mediatek.hardware.camera.isphal-V1-ndk.so"],
+    shared_libs: [
+        "libbinder_ndk", "android.hardware.common-V2-ndk", "libc++",
+    ],
+}

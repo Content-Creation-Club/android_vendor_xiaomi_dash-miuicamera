@@ -1,0 +1,6 @@
+on boot
+    # Xiaomi Camera asks virtual camera 5 for private high-resolution BLOB
+    # sizes which are absent from its public stream configuration map. Mark it
+    # privileged so cameraserver preserves 8192x6144 instead of rounding the
+    # stream down to 1920x1440 and allocating only 4,351,750 bytes.
+    setprop persist.vendor.camera.privapp.list com.android.camera
