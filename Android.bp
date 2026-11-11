@@ -10,9 +10,18 @@ android_app_import {
     dex_preopt: { enabled: false },
 }
 
+// Source views link to the shared vendor tree. Materialize the rc because
+// prebuilt_etc preserves source symlinks, whose host paths do not exist on-device.
+genrule {
+    name: "dash-miuicamera-init-source",
+    srcs: ["configs/init.dash-miuicamera.rc"],
+    out: ["init.dash-miuicamera.rc"],
+    cmd: "cat $(in) > $(out)",
+}
+
 prebuilt_etc {
     name: "dash-miuicamera-init",
-    src: "configs/init.dash-miuicamera.rc",
+    src: ":dash-miuicamera-init-source",
     filename_from_src: true,
     sub_dir: "init",
     system_ext_specific: true,
